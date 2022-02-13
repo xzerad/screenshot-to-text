@@ -1,4 +1,3 @@
-PyAutoGUI~=0.9.53
 pypiwin32~=223
 pywin32~=303
 Pillow~=9.0.1
