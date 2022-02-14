@@ -27,30 +27,32 @@ class WidgetAnimation:
                 started = True
                 win_pos_dif = (abs(mouse_x - win_pos_x), abs(mouse_y - win_pos_y))
                 win_size = f"{win_pos_dif[0]}x{win_pos_dif[1]}"
-                widget.geometry(win_size)
+                widget.geometry(win_size) if widget.winfo_exists() else exit(0)
 
                 if mouse_y > win_pos_y:
                     if mouse_x > win_pos_x:
                         pass
                     else:
                         win_icon_position = f"+{mouse_x}+{first_click_pos[1]}"
-                        widget.geometry(win_icon_position)
+                        widget.geometry(win_icon_position) if widget.winfo_exists() else exit(0)
                 else:
                     if mouse_x > win_pos_x:
                         win_icon_position = f"+{first_click_pos[0]}+{mouse_y}"
-                        widget.geometry(win_icon_position)
+                        widget.geometry(win_icon_position) if widget.winfo_exists() else exit(0)
                     else:
                         win_icon_position = f"+{mouse_x}+{mouse_y}"
-                        widget.geometry(win_icon_position)
-                widget.update_idletasks()
-                widget.update()
+                        widget.geometry(win_icon_position) if widget.winfo_exists() else exit(0)
+                widget.update_idletasks() if widget.winfo_exists() else exit(0)
+                widget.update() if widget.winfo_exists() else exit(0)
 
             else:
                 if started:
                     last_click_pos = mouse_x, mouse_y
-                    WidgetAnimation.capture_animation(widget)
+                    WidgetAnimation.capture_animation(widget) if widget.winfo_exists() else exit(0)
                     return first_click_pos, last_click_pos
+
                 win_icon_position = f"+{mouse_x}+{mouse_y}"
-                widget.geometry(win_icon_position)
+                widget.geometry(win_icon_position) if widget.winfo_exists() else exit(0)
                 win_pos_x, win_pos_y = mouse_x, mouse_y
-                widget.update()
+                widget.update() if widget.winfo_exists() else exit(0)
+
