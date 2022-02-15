@@ -6,22 +6,33 @@ from utils.image import operations
 import platform
 
 
-class ScreenshotToText(tk.Tk):
-    def __init__(self, clip: ClipBoardInterface.ClipBoardInterface, _mouse: MouseInterface.MouseInterface):
-        super().__init__()
+class Box(tk.Tk):
+    def __init__(self):
+        super(Box, self).__init__()
         self.withdraw()
-        self.clipboard = clip
-        self.mouse = _mouse
 
-    def capture(self):
+    def animation(self):
         grab_screen = tk.Toplevel(self)
         grab_screen.bind("<Escape>", lambda e: grab_screen.destroy())
         box = WidgetAnimation.WidgetAnimation.box_animation(grab_screen, WindowsMouse.WindowsMouse())
         grab_screen.destroy()
-        image = operations.grab_image(*box)
+        self.destroy()
+        return box
+
+
+class ScreenshotToText:
+    def __init__(self, clip: ClipBoardInterface.ClipBoardInterface, _mouse: MouseInterface.MouseInterface):
+        super().__init__()
+        self.clipboard = clip
+        self.mouse = _mouse
+
+    def capture(self):
+        box = Box()
+        box_pos = box.animation()
+        box.mainloop()
+        image = operations.grab_image(*box_pos)
         content = operations.image_to_string(operations.image_filter(image))
         self.clipboard.set_content(content)
-        self.destroy()
 
 
 if __name__ == '__main__':
@@ -36,4 +47,3 @@ if __name__ == '__main__':
 
     stt = ScreenshotToText(clipboard, mouse)
     stt.capture()
-    stt.mainloop()
