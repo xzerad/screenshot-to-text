@@ -1,9 +1,9 @@
 import tkinter as tk
-from utils.clipboard import WindowsClipBoard, ClipBoardInterface
+from utils.clipboard import ClipBoardInterface
+from utils.factory.factoryAbstract import MouseFactory, ClipBoardFactory
 from utils.input.mouse import WindowsMouse, MouseInterface
 from utils.animation import WidgetAnimation
 from utils.image import operations
-import platform
 
 
 class Box(tk.Tk):
@@ -36,13 +36,9 @@ class ScreenshotToText:
 
 
 if __name__ == '__main__':
-    clipboard = None
-    mouse = None
-    if platform.system() == "Windows":
-        clipboard = WindowsClipBoard.WindowsClipBoard()
-        mouse = WindowsMouse.WindowsMouse()
-    #  todo add linux and macos support
-    else:
+    clipboard = ClipBoardFactory.create_clipboard()
+    mouse = MouseFactory.create_mouse()
+    if clipboard is None or mouse is None:
         raise OSError("Unsupported OS")
 
     stt = ScreenshotToText(clipboard, mouse)
