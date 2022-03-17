@@ -13,6 +13,7 @@ class Box(tk.Tk):
 
     def animation(self):
         grab_screen = tk.Toplevel(self)
+        grab_screen.attributes("-topmost", "true")
         grab_screen.bind("<Escape>", lambda e: grab_screen.destroy())
         box = WidgetAnimation.WidgetAnimation.box_animation(grab_screen, WindowsMouse.WindowsMouse())
         grab_screen.destroy()

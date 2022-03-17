@@ -16,6 +16,7 @@ class WidgetAnimation:
         win_pos_x, win_pos_y = (0, 0)
         widget.overrideredirect(True)
         widget.wm_attributes("-alpha", 0.6)
+        # widget.
         widget.geometry("50x50")
         first_click_pos = (0, 0)
         last_click_pos = (0, 0)
